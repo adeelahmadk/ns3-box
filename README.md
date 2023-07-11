@@ -41,9 +41,11 @@ A docker image can be built with a one-liner like:
 docker build -f ns3_3.36p.dockerfile -t ns3-box:jammy3.36plus .
 ```
 
+Prebuilt images for versions >= 3.36 are avaliable on [docker hub](https://hub.docker.com/repository/docker/adeelahmadk/ns3-box/general).
+
 ## Spin up a Container
 
-A local directory, to store the ns-3 distribution, should be mounted as a volume on to `/code` in the container.
+A local directory, to store the ns-3 distribution, is required to be mounted as a volume on to `/code` in the container.
 ```bash
 docker container run \
     --rm -it \

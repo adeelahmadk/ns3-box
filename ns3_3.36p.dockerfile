@@ -1,7 +1,7 @@
 FROM ubuntu:jammy
 
 LABEL mantainer="Adeel Ahmad <6880680+adeelahmadk@users.noreply.github.com>" \
-      description="ns-3 (3.36+) env based on ubuntu:jammy x86_64" \
+      description="ns-3 (3.36+) env based on ubuntu:jammy x86_64 with neovim editor" \
       version="0.1" \
       source="Fetched from www.nsnam.org"
 
@@ -15,9 +15,10 @@ RUN ln -fs /usr/share/zoneinfo/Asia/Karachi /etc/localtime && \
     apt-get update && apt-get install -y \
     build-essential \
     linux-headers-generic \
-    tar bzip2 unrar \
-    curl html-xml-utils \
-    g++ cmake ninja-build ccache \
+    less nano \
+    tar bzip2 unzip unrar \
+    git curl html-xml-utils \
+    g++ gettext make cmake ninja-build ccache \
     clang-format-14 clang-tidy-14 \
     gdb valgrind \
     gsl-bin libgsl-dev libgslcblas0 \
@@ -39,7 +40,12 @@ RUN ln -fs /usr/share/zoneinfo/Asia/Karachi /etc/localtime && \
     libgtk-3-dev \
     lxc-utils lxc-templates vtun uml-utilities ebtables bridge-utils \
     gir1.2-goocanvas-2.0 python3-gi python3-gi-cairo python3-pygraphviz gir1.2-gtk-3.0 ipython3 \
-    && pip3 install -U sphinx cppyy pip \
+    && mkdir -p /tmp/neovim && cd /tmp/neovim \
+    && git clone https://github.com/neovim/neovim . \
+    && git checkout stable \
+    && make CMAKE_BUILD_TYPE=Release install \
+    && cd - >/dev/null && rm -rf /tmp/neovim \
+    && pip3 install -U pip sphinx cppyy \
     && apt-get autoremove -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
